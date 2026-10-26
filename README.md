@@ -4,6 +4,22 @@ A faithful, modern, high-performance reverse-engineered web application of **[ma
 
 ---
 
+## 🌐 Deployment & Live Custom Domain
+
+- **GitHub Repository**: [https://github.com/miftachuda/matrix](https://github.com/miftachuda/matrix)
+- **Live Custom Domain**: [http://matrix.loc-2.com](http://matrix.loc-2.com) (or [https://matrix.loc-2.com](https://matrix.loc-2.com))
+- **Deployment Branch**: `gh-pages`
+- **GitHub Actions Workflow**: [`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)
+
+### DNS Configuration for `matrix.loc-2.com`
+Pastikan DNS record berikut diset di Cloudflare / DNS Manager domain `loc-2.com`:
+- **Type**: `CNAME`
+- **Name / Host**: `matrix`
+- **Target**: `miftachuda.github.io`
+- **Proxy status**: DNS Only (atau Proxied)
+
+---
+
 ## ⚡ Quick Start
 
 ### 1. Run Development Server
