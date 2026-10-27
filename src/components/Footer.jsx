@@ -2,7 +2,7 @@ import React from 'react';
 import { Flame, MapPin, Mail, Phone, MessageSquare, Instagram, ShieldCheck } from './Icons';
 import { siteData } from '../data/siteData';
 
-export default function Footer({ onOpenRegister }) {
+export default function Footer({ onOpenRegister, onOpenLogin, onOpenAdmin, isLoggedIn }) {
   const currentYear = new Date().getFullYear();
 
   const handleScrollTo = (e, href) => {
@@ -104,6 +104,16 @@ export default function Footer({ onOpenRegister }) {
               </li>
               <li>
                 <a
+                  href="#verifikasi"
+                  onClick={(e) => handleScrollTo(e, '#verifikasi')}
+                  className="hover:text-amber-400 transition-colors text-amber-300/90 font-medium flex items-center gap-1.5"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Verifikasi Sertifikat</span>
+                </a>
+              </li>
+              <li>
+                <a
                   href="#lokasi"
                   onClick={(e) => handleScrollTo(e, '#lokasi')}
                   className="hover:text-amber-400 transition-colors"
@@ -169,8 +179,15 @@ export default function Footer({ onOpenRegister }) {
         {/* Bottom Copyright */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-3">
           <p>© {currentYear} Matrix Welding School. All rights reserved.</p>
-          <div className="flex items-center gap-1 text-[11px] text-slate-400">
+          <div className="flex items-center gap-3 text-[11px] text-slate-400">
             <span>Pusat Pelatihan & Sertifikasi Las Terpercaya di Cilacap, Jawa Tengah</span>
+            <span className="text-slate-600">•</span>
+            <button
+              onClick={() => (isLoggedIn ? onOpenAdmin?.() : onOpenLogin?.())}
+              className="text-slate-400 hover:text-amber-400 transition-colors underline underline-offset-2 flex items-center gap-1 cursor-pointer"
+            >
+              <span>{isLoggedIn ? 'Buka Admin Portal' : 'Login Admin'}</span>
+            </button>
           </div>
         </div>
       </div>

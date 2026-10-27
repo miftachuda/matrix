@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Phone, MessageSquare, Flame } from './Icons';
+import { Menu, X, Phone, MessageSquare, Flame, LogIn, LogOut, LayoutDashboard } from './Icons';
 import { siteData } from '../data/siteData';
 
-export default function Navbar({ onOpenRegister }) {
+export default function Navbar({
+  onOpenRegister,
+  onOpenLogin,
+  isLoggedIn = false,
+  onOpenAdmin,
+  currentUser = null,
+  onLogout
+}) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -19,6 +26,7 @@ export default function Navbar({ onOpenRegister }) {
     { label: 'Beranda', href: '#' },
     { label: 'Tentang Kami', href: '#tentangkami' },
     { label: 'Program', href: '#program' },
+    { label: 'Verifikasi Sertifikat', href: '#verifikasi' },
     { label: 'Fasilitas', href: '#fasilitas' },
     { label: 'Lokasi', href: '#lokasi' },
   ];
@@ -80,7 +88,7 @@ export default function Navbar({ onOpenRegister }) {
                 key={link.label}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="px-3.5 py-2 text-sm font-medium text-slate-300 hover:text-amber-400 hover:bg-slate-800/50 rounded-lg transition-all"
+                className="px-3 py-2 text-sm font-medium text-slate-300 hover:text-amber-400 hover:bg-slate-800/50 rounded-lg transition-all"
               >
                 {link.label}
               </a>
@@ -88,7 +96,36 @@ export default function Navbar({ onOpenRegister }) {
           </nav>
 
           {/* CTA Buttons */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-2.5">
+            {isLoggedIn ? (
+              <div className="flex items-center gap-1.5 bg-slate-800/60 p-1 rounded-lg border border-amber-500/30">
+                <button
+                  onClick={onOpenAdmin}
+                  className="px-3 py-1.5 text-xs font-semibold text-amber-300 hover:text-amber-200 bg-amber-500/10 hover:bg-amber-500/20 rounded-md transition-all flex items-center gap-1.5"
+                  title="Buka Admin Dashboard"
+                >
+                  <LayoutDashboard className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Admin Portal</span>
+                </button>
+                <button
+                  onClick={onLogout}
+                  className="p-1.5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-md transition-colors"
+                  title="Logout Admin"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={onOpenLogin}
+                className="px-3 py-2 text-xs font-medium text-slate-300 hover:text-amber-400 hover:bg-slate-800/60 rounded-lg transition-all flex items-center gap-1.5 border border-slate-700/60 hover:border-amber-500/40"
+                title="Login Pengurus / Instruktur"
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                <span>Admin</span>
+              </button>
+            )}
+
             <button
               onClick={() => onOpenRegister()}
               className="px-4 py-2 text-sm font-semibold text-slate-900 bg-amber-400 hover:bg-amber-300 rounded-lg transition-all shadow-md shadow-amber-500/20 active:scale-95 flex items-center gap-2"
@@ -109,6 +146,23 @@ export default function Navbar({ onOpenRegister }) {
 
           {/* Mobile Menu Toggle Button */}
           <div className="flex md:hidden items-center gap-2">
+            {isLoggedIn ? (
+              <button
+                onClick={onOpenAdmin}
+                className="px-2.5 py-1.5 text-xs font-semibold text-amber-300 bg-amber-500/20 border border-amber-500/40 rounded-md flex items-center gap-1"
+              >
+                <LayoutDashboard className="w-3.5 h-3.5" />
+                <span>Admin</span>
+              </button>
+            ) : (
+              <button
+                onClick={onOpenLogin}
+                className="px-2.5 py-1.5 text-xs font-medium text-slate-300 bg-slate-800 border border-slate-700 rounded-md flex items-center gap-1"
+              >
+                <LogIn className="w-3.5 h-3.5 text-amber-400" />
+                <span>Login</span>
+              </button>
+            )}
             <button
               onClick={() => onOpenRegister()}
               className="px-3 py-1.5 text-xs font-semibold text-slate-900 bg-amber-400 rounded-md active:scale-95 flex items-center gap-1"
@@ -143,6 +197,42 @@ export default function Navbar({ onOpenRegister }) {
             </div>
 
             <div className="mt-4 pt-4 border-t border-slate-800/80 flex flex-col gap-2.5">
+              {isLoggedIn ? (
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onOpenAdmin();
+                    }}
+                    className="flex-1 py-2 text-center text-xs font-semibold text-amber-300 bg-amber-500/20 border border-amber-500/40 rounded-lg flex items-center justify-center gap-2"
+                  >
+                    <LayoutDashboard className="w-4 h-4" />
+                    <span>Masuk Admin Dashboard</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      onLogout();
+                    }}
+                    className="py-2 px-3 text-xs font-semibold text-rose-300 bg-rose-500/10 border border-rose-500/30 rounded-lg flex items-center justify-center"
+                    title="Logout"
+                  >
+                    <LogOut className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    onOpenLogin();
+                  }}
+                  className="w-full py-2 text-center text-xs font-semibold text-slate-300 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-lg flex items-center justify-center gap-2"
+                >
+                  <LogIn className="w-4 h-4 text-amber-400" />
+                  <span>Login Pengurus / Admin Portal</span>
+                </button>
+              )}
+
               <button
                 onClick={() => {
                   setMobileMenuOpen(false);
